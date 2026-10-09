@@ -1,26 +1,461 @@
 @import "tailwindcss";
 
+/* =========================
+   GLOBAL THEME
+========================= */
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #050816;
+  --surface: #0b1225;
+  --foreground: #f8fafc;
+  --muted: #94a3b8;
+  --accent: #22d3ee;
+  --accent-2: #818cf8;
+  --border: rgba(255, 255, 255, 0.1);
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+* {
+  box-sizing: border-box;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 90px;
 }
 
 body {
+  margin: 0;
+  padding: 0;
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+  background: var(--accent);
+  color: #050816;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  font: inherit;
+  cursor: pointer;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+section {
+  scroll-margin-top: 80px;
+}
+
+/* =========================
+   CUSTOM SCROLLBAR
+========================= */
+
+::-webkit-scrollbar {
+  width: 9px;
+}
+
+::-webkit-scrollbar-track {
+  background: #050816;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(
+    180deg,
+    var(--accent),
+    var(--accent-2)
+  );
+  border-radius: 20px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #67e8f9;
+}
+
+/* =========================
+   ANIMATED BACKGROUND
+========================= */
+
+.animated-bg {
+  background: linear-gradient(
+    -45deg,
+    #050816,
+    #0b1630,
+    #10102b,
+    #050816
+  );
+  background-size: 400% 400%;
+  animation: gradientFlow 14s ease infinite;
+}
+
+@keyframes gradientFlow {
+  0% {
+    background-position: 0% 50%;
+  }
+
+  50% {
+    background-position: 100% 50%;
+  }
+
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+/* =========================
+   GRADIENT TEXT
+========================= */
+
+.gradient-text {
+  background: linear-gradient(
+    90deg,
+    #22d3ee,
+    #818cf8,
+    #c084fc,
+    #22d3ee
+  );
+  background-size: 300% auto;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: textGradient 6s linear infinite;
+}
+
+@keyframes textGradient {
+  to {
+    background-position: 300% center;
+  }
+}
+
+/* =========================
+   REUSABLE GLOW EFFECT
+========================= */
+
+.glow-box {
+  transition:
+    transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1),
+    box-shadow 0.4s ease,
+    border-color 0.4s ease;
+}
+
+.glow-box:hover {
+  transform: translateY(-8px);
+  border-color: rgba(34, 211, 238, 0.65);
+  box-shadow:
+    0 15px 45px rgba(0, 0, 0, 0.25),
+    0 0 30px rgba(34, 211, 238, 0.12);
+}
+
+/* =========================
+   GLASSMORPHISM
+========================= */
+
+.glass {
+  background: rgba(255, 255, 255, 0.045);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+}
+
+/* =========================
+   BUTTON TRANSITIONS
+========================= */
+
+.btn-animated {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease,
+    color 0.3s ease;
+}
+
+.btn-animated::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(
+    110deg,
+    transparent 20%,
+    rgba(255, 255, 255, 0.3) 50%,
+    transparent 80%
+  );
+  transform: translateX(-120%);
+  transition: transform 0.6s ease;
+}
+
+.btn-animated:hover::before {
+  transform: translateX(120%);
+}
+
+.btn-animated:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 28px rgba(34, 211, 238, 0.2);
+}
+
+.btn-animated:active {
+  transform: scale(0.97);
+}
+
+/* =========================
+   FLOATING ELEMENTS
+========================= */
+
+.float-animation {
+  animation: floating 5s ease-in-out infinite;
+}
+
+.float-animation-slow {
+  animation: floating 8s ease-in-out infinite;
+}
+
+@keyframes floating {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-14px);
+  }
+}
+
+/* =========================
+   PROFILE IMAGE GLOW
+========================= */
+
+.profile-glow {
+  transition:
+    transform 0.5s ease,
+    box-shadow 0.5s ease;
+  box-shadow:
+    0 0 25px rgba(34, 211, 238, 0.15),
+    0 0 60px rgba(129, 140, 248, 0.1);
+}
+
+.profile-glow:hover {
+  transform: scale(1.035);
+  box-shadow:
+    0 0 35px rgba(34, 211, 238, 0.3),
+    0 0 90px rgba(129, 140, 248, 0.2);
+}
+
+/* =========================
+   IMAGE HOVER
+========================= */
+
+.image-zoom {
+  overflow: hidden;
+}
+
+.image-zoom img {
+  transition: transform 0.65s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.image-zoom:hover img {
+  transform: scale(1.07);
+}
+
+/* =========================
+   NAVBAR TRANSITION
+========================= */
+
+.nav-link {
+  position: relative;
+  transition: color 0.3s ease;
+}
+
+.nav-link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -6px;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(
+    90deg,
+    var(--accent),
+    var(--accent-2)
+  );
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 0.3s ease;
+}
+
+.nav-link:hover {
+  color: var(--accent);
+}
+
+.nav-link:hover::after {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+
+/* =========================
+   ENTRANCE ANIMATIONS
+========================= */
+
+.fade-in {
+  animation: fadeIn 0.9s ease both;
+}
+
+.slide-up {
+  animation: slideUp 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+
+.slide-left {
+  animation: slideLeft 0.8s ease both;
+}
+
+.slide-right {
+  animation: slideRight 0.8s ease both;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(35px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideLeft {
+  from {
+    opacity: 0;
+    transform: translateX(35px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideRight {
+  from {
+    opacity: 0;
+    transform: translateX(-35px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Staggered entrance delays */
+
+.delay-100 {
+  animation-delay: 100ms;
+}
+
+.delay-200 {
+  animation-delay: 200ms;
+}
+
+.delay-300 {
+  animation-delay: 300ms;
+}
+
+.delay-400 {
+  animation-delay: 400ms;
+}
+
+.delay-500 {
+  animation-delay: 500ms;
+}
+
+/* =========================
+   GRADIENT BORDER
+========================= */
+
+.gradient-border {
+  border: 1px solid transparent;
+  background:
+    linear-gradient(#080d1f, #080d1f) padding-box,
+    linear-gradient(
+      135deg,
+      #22d3ee,
+      #818cf8,
+      #c084fc
+    ) border-box;
+  transition:
+    box-shadow 0.4s ease,
+    transform 0.4s ease;
+}
+
+.gradient-border:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 35px rgba(34, 211, 238, 0.12);
+}
+
+/* =========================
+   RESPONSIVE LAYOUT
+========================= */
+
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin-inline: auto;
+  padding-inline: 24px;
+}
+
+@media (max-width: 640px) {
+  .container {
+    padding-inline: 16px;
+  }
+
+  .slide-up,
+  .slide-left,
+  .slide-right {
+    animation-duration: 0.5s;
+  }
+}
+
+/* =========================
+   ACCESSIBILITY
+========================= */
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 4px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }
